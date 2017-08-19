@@ -12,5 +12,5 @@ Route::group(['prefix' => '/api', 'middleware' => ['auth:api']], function(){
     Route::put('user/product/{product_id}', 'UserProductController@store');
     Route::delete('user/product/{product_id}', 'UserProductController@delete');
 
-    Route::post('product-image', 'ProductImageController@store');
+    Route::post('product/image', 'ProductImageController@store');
 });

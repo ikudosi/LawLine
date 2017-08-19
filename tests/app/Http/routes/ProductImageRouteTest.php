@@ -9,7 +9,7 @@ class ProductImageRouteTest extends TestCase
 
     public function test_it_can_upload_image()
     {
-        $response = $this->call('POST', '/api/product-image', [], [], [
+        $response = $this->call('POST', '/api/product/image', [], [], [
             'file' => new UploadedFile(resource_path('test_files/laravel-icon.jpg'), 'laravel-icon.jpg', 'image/jpeg', null, null, true)
         ]);
 
