@@ -27,6 +27,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Product::class, 'user_products');
     }
 
+    public function userProducts()
+    {
+        return $this->hasMany(UserProduct::class);
+    }
+
     /**
      * @param EloquentCollection|Product $products
      * @return array

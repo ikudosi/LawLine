@@ -8,5 +8,9 @@ Route::group(['prefix' => '/api', 'middleware' => ['auth:api']], function(){
     Route::patch('product/{product_id}', 'ProductController@update');
     Route::delete('product/{product_id}', 'ProductController@delete');
 
+    Route::get('user/products', 'UserProductsController@index');
+    Route::put('user/product/{product_id}', 'UserProductController@store');
+    Route::delete('user/product/{product_id}', 'UserProductController@delete');
+
     Route::post('product-image', 'ProductImageController@store');
 });

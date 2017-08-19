@@ -28,4 +28,24 @@ class Product extends Model
     {
         return $this->hasManyThrough(User::class, UserProduct::class, 'product_id', 'user_id', 'product_id');
     }
+
+    /**
+     * @param $query
+     * @param array $ids
+     * @return mixed
+     */
+    public function scopeByIds($query, array $ids)
+    {
+        return $query->whereIn('product_id', $ids);
+    }
+
+    /**
+     * @param $query
+     * @param array $ids
+     * @return mixed
+     */
+    public function scopeExcludeByIds($query, array $ids)
+    {
+        return $query->whereNotIn('product_id', $ids);
+    }
 }

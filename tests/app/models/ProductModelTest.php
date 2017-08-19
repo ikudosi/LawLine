@@ -20,6 +20,6 @@ class ProductModelTest extends TestCase
             $user->setProducts($products);
         });
 
-        $this->assertTrue(Product::with('users')->get()->pluck('users')->count() == 2);
+        $this->assertTrue(Product::with('users')->get()->pluck('users')->count() >= 2);
     }
 }
