@@ -9,6 +9,12 @@ use App\Http\Requests\StoreProductImageRequest;
 
 class ProductImageController extends Controller
 {
+    /**
+     * Responds to POST /api/product-image
+     *
+     * @param StoreProductImageRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(StoreProductImageRequest $request)
     {
         try {
