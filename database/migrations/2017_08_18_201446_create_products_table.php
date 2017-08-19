@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name')->index('name');
             $table->longText('description');
             $table->decimal('price', 15, 2)->index('price');
-            $table->text('image');
+            $table->text('image')->nullable();
         });
     }
 
