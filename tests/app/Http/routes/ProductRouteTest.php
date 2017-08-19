@@ -34,7 +34,7 @@ class ProductRouteTest extends TestCase
     {
         $product = factory(Product::class)->create([]);
 
-        $request = $this->call('PATCH', "/api/product/{$product->product_id}", []);
+        $request = $this->call('POST', "/api/product/{$product->product_id}", []);
 
         $this->assertTrue($request->getStatusCode() == 302 || $request->getStatusCode() == 422);
     }
@@ -49,7 +49,7 @@ class ProductRouteTest extends TestCase
             'price'         =>  500.00
         ];
 
-        $request = $this->call('PATCH', "/api/product/{$product->product_id}", $newData);
+        $request = $this->call('POST', "/api/product/{$product->product_id}", $newData);
 
         $this->assertEquals(200, $request->getStatusCode());
         $this->seeInDatabase('products', $newData);
@@ -60,7 +60,7 @@ class ProductRouteTest extends TestCase
         $product = factory(Product::class)->create();
         $targetProductId = $product->product_id + 1;
 
-        $request = $this->call('PATCH', "/api/product/{$targetProductId}", $product->toArray());
+        $request = $this->call('POST', "/api/product/{$targetProductId}", $product->toArray());
 
         $this->assertEquals(404, $request->getStatusCode());
         $this->seeJsonStructure(['text']);
@@ -94,16 +94,4 @@ class ProductRouteTest extends TestCase
 
         $this->assertEquals(200, $request->getStatusCode());
     }
-
-    public function test_exception_is_handled_on_retrieve()
-    {
-        $product = factory(Product::class)->create();
-        $targetProductId = $product->product_id + 1;
-
-        $request = $this->call('GET', "/api/product/{$targetProductId}");
-
-        $this->assertEquals(404, $request->getStatusCode());
-        $this->seeJsonStructure(['text']);
-    }
-
 }
