@@ -14,7 +14,6 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function ($table) {
             $table->increments('product_id');
-            $table->integer('user_id')->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
             $table->string('name')->index('name');
             $table->longText('description');
             $table->decimal('price', 15, 2)->index('price');

@@ -15,17 +15,15 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     return [
         'first_name'    => $faker->firstName,
         'last_name'     => $faker->lastName,
-        'email'         => $faker->email,
+        'email'         => $faker->companyEmail,
         'api_token'     => str_random(60)
     ];
 });
 
-$factory->define(App\Models\Product::class, function (Faker\Generator $faker) {
-    $user = factory(App\Models\User::class)->create();
+$factory->define(App\Models\Product::class, function () {
     return [
-        'user_id'       =>  $user->user_id,
-        'name'          =>  'Doge',
-        'description'   =>  'Such cute. Wow.',
-        'price'         =>  9000.00
+        'name'          =>  str_random(5),
+        'description'   =>  str_random(10),
+        'price'         =>  random_int(10, 500)
     ];
 });

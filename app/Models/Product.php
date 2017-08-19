@@ -14,15 +14,18 @@ class Product extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'description', 'price', 'image'];
+    protected $fillable = ['name', 'user_id', 'description', 'price', 'image'];
 
     /**
      * @var bool
      */
     public $timestamps = false;
 
-    public function user()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasManyThrough(User::class, UserProduct::class);
     }
 }
