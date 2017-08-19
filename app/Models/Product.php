@@ -26,6 +26,6 @@ class Product extends Model
      */
     public function users()
     {
-        return $this->hasManyThrough(User::class, UserProduct::class);
+        return $this->hasManyThrough(User::class, UserProduct::class, 'product_id', 'user_id', 'product_id');
     }
 }

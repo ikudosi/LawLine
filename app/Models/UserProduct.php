@@ -9,7 +9,7 @@ class UserProduct extends Model
     /**
      * @var bool
      */
-    protected $primaryKey = false;
+    protected $primaryKey = 'user_id';
 
     /**
      * @var array
@@ -20,4 +20,9 @@ class UserProduct extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * @var bool
+     */
+    public $incrementing = false;
 }
