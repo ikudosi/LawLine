@@ -20,12 +20,12 @@ All tests are under tests/app. To run simple run this command: phpunit
 * GET     /api/products   - This gets all the products
 * POST    /api/product        - This stores a product to the products table
 * GET     /api/product/{id}   - This gets a product by id
-* PATH    /api/product/{id}   - This updates a product by id
+* POST    /api/product/{id}   - This updates a product by id
 * DELETE  /api/product/{id}   - This deletes a product by id
 * GET     /api/user/products      - This gets all the products for the authorized user
 * PUT     /api/user/product/{id}  - This links the authorized to a product
 * DELETE  /api/user/product/{id}  - This un-links the authorized to a product
-* POST    /api/product/image  - This saves a product image to the server
+* POST    /api/product-image  - This saves a product image to the server
 
 ### Authentication
 All routes under /api are under the 'auth:api' middleware. What this essentially means is that 
