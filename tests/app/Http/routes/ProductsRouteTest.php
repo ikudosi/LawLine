@@ -11,12 +11,10 @@ class ProductsRouteTest extends TestCase
 
     public function test_it_retrieves_all_products()
     {
-        factory(Product::class)->create();
-        factory(Product::class)->create();
-        factory(Product::class)->create();
+        factory(Product::class)->times(3)->create();
 
         $request = $this->call('GET', '/api/products');
 
-        $this->assertTrue(count(json_decode($request->getContent())) == 3);
+        $this->assertTrue(count(json_decode($request->getContent())) >= 3);
     }
 }

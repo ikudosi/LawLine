@@ -33,10 +33,8 @@ class ProductController extends Controller
     public function store(StoreProduct $request)
     {
         try {
-
             Product::create($request->toArray());
             return response()->json([], 200);
-
         } catch (\Exception $e) {
             return response()->json(['text' => $e->getMessage()], 500);
         }
@@ -52,10 +50,8 @@ class ProductController extends Controller
     public function update($product_id, UpdateProduct $request)
     {
         try {
-
             Product::findOrFail($product_id)->update($request->toArray());
             return response()->json([], 200);
-
         } catch (\Exception $e) {
             return response()->json(['text' => $e->getMessage()], 404);
         }
@@ -71,7 +67,6 @@ class ProductController extends Controller
     {
         try {
             Product::findOrFail($product_id)->delete();
-
             return response()->json([]);
         } catch (\Exception $e) {
             return response()->json(['text' => $e->getMessage()], 404);
