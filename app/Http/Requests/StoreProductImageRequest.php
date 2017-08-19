@@ -24,7 +24,7 @@ class StoreProductImageRequest extends Request
     public function rules()
     {
         return [
-            'file' => 'required|image'
+            'image' => 'required|image'
         ];
     }
 }

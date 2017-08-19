@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ProductImage as ProductImageService;
 use App\Http\Requests\StoreProduct;
 use App\Http\Requests\UpdateProduct;
 
@@ -28,12 +29,18 @@ class ProductController extends Controller
      * Responds to POST /api/products/{id}
      *
      * @param StoreProduct $request
+     * @param ProductImageService $imageService
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreProduct $request)
+    public function store(StoreProduct $request, ProductImageService $imageService)
     {
         try {
             Product::create($request->toArray());
+
+            if ($request->hasFile('image')) {
+                $imageService->store($request->file('image'));
+            }
+
             return response()->json([], 200);
         } catch (\Exception $e) {
             return response()->json(['text' => $e->getMessage()], 500);

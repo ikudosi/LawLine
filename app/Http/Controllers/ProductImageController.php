@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Storage;
-
-use Illuminate\Support\Facades\File;
+use App\Services\ProductImage as ProductImageService;
 use App\Http\Requests\StoreProductImageRequest;
 
 class ProductImageController extends Controller
@@ -13,15 +11,13 @@ class ProductImageController extends Controller
      * Responds to POST /api/product-image
      *
      * @param StoreProductImageRequest $request
+     * @param ProductImageService $imageService
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreProductImageRequest $request)
+    public function store(StoreProductImageRequest $request, ProductImageService $imageService)
     {
         try {
-            $file = $request->file('file');
-            $extension = $file->getClientOriginalExtension();
-            Storage::disk('public')->put($file->getFilename().'.'.$extension,  File::get($file));
-
+            $imageService->store($request->file('image'));
             return response()->json(['text' => 'success']);
         } catch (\Exception $e) {
             return response()->json(['text' => $e->getMessage()], 500);
