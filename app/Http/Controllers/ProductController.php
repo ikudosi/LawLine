@@ -7,11 +7,12 @@ use App\Http\Requests\StoreProduct;
 use App\Http\Requests\UpdateProduct;
 
 use App\Models\Product;
+use Illuminate\Routing\Controller;
 
 class ProductController extends Controller
 {
     /**
-     * Responds to GET /api/products/{id}
+     * Responds to GET /api/product/{id}
      *
      * @param $product_id
      * @return \Illuminate\Http\JsonResponse
@@ -19,14 +20,14 @@ class ProductController extends Controller
     public function index($product_id)
     {
         try {
-            return Product::findOrFail($product_id);
+            return Product::find($product_id);
         } catch (\Exception $e) {
             return response()->json(['text' => $e->getMessage()], 404);
         }
     }
 
     /**
-     * Responds to POST /api/products/{id}
+     * Responds to POST /api/product/{id}
      *
      * @param StoreProduct $request
      * @param ProductImageService $imageService
@@ -35,37 +36,59 @@ class ProductController extends Controller
     public function store(StoreProduct $request, ProductImageService $imageService)
     {
         try {
-            Product::create($request->toArray());
+            $data = [
+                'name'          => $request->get('name'),
+                'description'   => $request->get('description'),
+                'price'         => $request->get('price'),
+            ];
 
             if ($request->hasFile('image')) {
-                $imageService->store($request->file('image'));
+                $file = $request->file('image');
+                $imageService->store($file);
+                $data['image'] = $file->getClientOriginalName();
             }
 
-            return response()->json([], 200);
+            Product::create($data);
+
+            return response()->json(['text' => 'success'], 200);
         } catch (\Exception $e) {
             return response()->json(['text' => $e->getMessage()], 500);
         }
     }
 
     /**
-     * Responds to PATCH /api/products/{id}
+     * Responds to POST /api/product/{id}
      *
-     * @param product_id
+     * @param $product_id
      * @param UpdateProduct $request
+     * @param ProductImageService $imageService
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update($product_id, UpdateProduct $request)
+    public function update($product_id, UpdateProduct $request, ProductImageService $imageService)
     {
         try {
-            Product::findOrFail($product_id)->update($request->toArray());
-            return response()->json([], 200);
+            $data = [
+                'name'          => $request->get('name'),
+                'description'   => $request->get('description'),
+                'price'         => $request->get('price'),
+            ];
+
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $imageService->store($file);
+                $data['image'] = $file->getClientOriginalName();
+            }
+
+            Product::findOrFail($product_id)->update($data);
+
+            return response()->json(['text' => 'success'], 200);
         } catch (\Exception $e) {
-            return response()->json(['text' => $e->getMessage()], 404);
+            return response()->json(['text' => $e->getFile()], 404);
         }
     }
 
     /**
-     * Responds to DELETE /api/products/{id}
+     * Responds to DELETE /api/product/{id}
      *
      * @param $product_id
      * @return \Illuminate\Http\JsonResponse
@@ -74,7 +97,7 @@ class ProductController extends Controller
     {
         try {
             Product::findOrFail($product_id)->delete();
-            return response()->json([]);
+            return response()->json(['text' => 'success']);
         } catch (\Exception $e) {
             return response()->json(['text' => $e->getMessage()], 404);
         }

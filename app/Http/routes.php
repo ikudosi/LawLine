@@ -11,6 +11,4 @@
 |
 */
 
-Route::auth();
-
 require config('app.routesPath') . 'api.php';
