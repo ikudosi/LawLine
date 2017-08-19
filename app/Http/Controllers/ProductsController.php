@@ -9,6 +9,11 @@ use App\Models\Product;
 
 class ProductsController extends Controller
 {
+    public function index(Product $product)
+    {
+        return $product;
+    }
+
     /**
      * Stores a record to the products table.
      *
@@ -28,19 +33,34 @@ class ProductsController extends Controller
     }
 
     /**
-     * @param Product $product
+     * @param product_id
      * @param UpdateProduct $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Product $product, UpdateProduct $request)
+    public function update($product_id, UpdateProduct $request)
     {
         try {
 
-            $product->update($request->toArray());
+            Product::findOrFail($product_id)->update($request->toArray());
             return response()->json([], 200);
 
         } catch (\Exception $e) {
-            return response()->json(['text' => $e->getMessage()], 500);
+            return response()->json(['text' => $e->getMessage()], 404);
+        }
+    }
+
+    /**
+     * @param $product_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete($product_id)
+    {
+        try {
+            Product::findOrFail($product_id)->delete();
+
+            return response()->json([]);
+        } catch (\Exception $e) {
+            return response()->json(['text' => $e->getMessage()], 404);
         }
     }
 }

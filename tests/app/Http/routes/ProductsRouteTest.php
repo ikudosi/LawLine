@@ -56,4 +56,56 @@ class ProductsRouteTest extends TestCase
         $this->assertEquals(200, $request->getStatusCode());
         $this->seeInDatabase('products', $newData);
     }
+
+    public function test_exception_is_handled_on_update()
+    {
+        $product = factory(Product::class)->create();
+        $targetProductId = $product->product_id + 1;
+
+        $request = $this->call('PATCH', "/api/products/{$targetProductId}", $product->toArray());
+
+        $this->assertEquals(404, $request->getStatusCode());
+        $this->seeJsonStructure(['text']);
+    }
+
+    public function test_it_can_delete_a_product()
+    {
+        $product = factory(Product::class)->create([]);
+
+        $this->call('DELETE', "/api/products/{$product->product_id}", []);
+
+        $this->notSeeInDatabase('products', ['product_id' => $product->product_id]);
+    }
+
+    public function test_exception_is_handled_on_delete()
+    {
+        $product = factory(Product::class)->create();
+        $targetProductId = $product->product_id + 1;
+
+        $request = $this->call('DELETE', "/api/products/{$targetProductId}", $product->toArray());
+
+        $this->assertEquals(404, $request->getStatusCode());
+        $this->seeJsonStructure(['text']);
+    }
+
+    public function test_it_can_get_product_info()
+    {
+        $product = factory(Product::class)->create([]);
+
+        $request = $this->call('GET', "/api/products/{$product->product_id}", []);
+
+        $this->assertEquals(200, $request->getStatusCode());
+    }
+
+    public function test_exception_is_handled_on_retrieve()
+    {
+        $product = factory(Product::class)->create();
+        $targetProductId = $product->product_id + 1;
+
+        $request = $this->call('DELETE', "/api/products/{$targetProductId}", $product->toArray());
+
+        $this->assertEquals(404, $request->getStatusCode());
+        $this->seeJsonStructure(['text']);
+    }
+
 }
